@@ -5,6 +5,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import { getImages } from '../src/js/pixabay-api';
 import { imageTemplate } from './js/render-function'
 import { renderImages } from './js/render-function'
+import { getParam } from './js/render-function'
 
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector('.gallery');
@@ -102,6 +103,7 @@ async function onLoadMore() {
     });
     checkBtnStatus()
 }
+
 
 
 

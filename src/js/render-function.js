@@ -13,3 +13,9 @@ export function imageTemplate({ largeImageURL, webformatURL, tags, likes, views,
 export function renderImages(imagesArr) {
      return imagesArr.map(imageTemplate).join('')
 }
+
+export function getParam() {
+  const elem = document.querySelector('.gallery-item');
+  const elements = elem.getBoundingClientRect();
+  return elements.height;
+}
