@@ -2,6 +2,7 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+// import axios from "axios";
 import { getImages } from '../src/js/pixabay-api';
 import { imageTemplate } from './js/render-function'
 import { renderImages } from './js/render-function'
@@ -12,20 +13,21 @@ const loader = document.querySelector('.loader')
 
 form.addEventListener('submit', crateGallery)
 
-function crateGallery(event) {
+async function crateGallery(event) {
     event.preventDefault()
     loader.classList.remove('visually-hidden');
     const searchValue = form.elements.searchInput.value;
-    getImages(searchValue).then(images => {
+    const images = await getImages(searchValue)
+    try {
         if (images.hits.length < 1) {
-            iziToast.show({
-            title: 'Error',
-            message: 'Sorry, there are no images matching your search query. Please try again!',
-            backgroundColor: '#ef4040',
-            position: 'topRight',
-            }
-            )
-            loader.classList.add('visually-hidden'); 
+        iziToast.show({
+        title: 'Error',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
+        backgroundColor: '#ef4040',
+        position: 'topRight',
+        }
+        )
+        loader.classList.add('visually-hidden'); 
     }
     const markup = renderImages(images.hits);
         gallery.innerHTML = markup
@@ -35,8 +37,11 @@ function crateGallery(event) {
         });
         form.reset() 
         loader.classList.add('visually-hidden');
-        lightbox.refresh();
-    }).catch(error => console.log(error));
+        lightbox.refresh(); 
+    } catch (error) {
+        console.log(error)
+    }
+    
 }
 
 
